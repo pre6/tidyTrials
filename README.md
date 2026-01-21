@@ -48,23 +48,17 @@ Functions to retrieve detailed information for specific trials.
 
 Retrieve full metadata for a single clinical trial using its NCT identifier and input a optional module paramter for certain field groups.
 
+Optionally retrieve specific data modules (group of related fields). Default will be the Identification module (e.g. identificationModule, statusModule)
 
 ## 3. Metadata & Field Discovery
 
 Functions to explore what data fields are available in the API.
 
-`ct_metadata()`
+`ct_metadata(nct_id)`
 
-List all available study fields and their definitions and the module the field belongs to.
+Outputs a list of modules for a specific study and a table of fields, their definitions and which modules they belong to.
 
-## 4. Database Statistics Helper functions to retrieve summary statistics about the clinical trials database. 
 
-`ct_stats_field_sizes()`
 
-Show how often different study fields appear. 
-
-`ct_stats_field_values(field)`
-
-Retrieve common values for a given field (e.g. Phase, OverallStatus).
 
 
