@@ -58,14 +58,3 @@ Functions to explore what data fields are available in the API.
 List all available study fields and their definitions.
 
 
-## 4. Database Statistics
-
-Helper functions to retrieve summary statistics about the clinical trials database.
-
-`ct_stats_field_sizes()`
-
-Show how often different study fields appear.
-
-`ct_stats_field_values(field)`
-
-Retrieve common values for a given field (e.g. Phase, OverallStatus).
