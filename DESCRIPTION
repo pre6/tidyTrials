@@ -1,0 +1,17 @@
+Package: tidytrials
+Title: Query and Tidy ClinicalTrials.gov Data in R
+Version: 0.1.0
+Authors@R:
+    person("Peter", "Nguyen", email = "phan.nguyen@mail.utoronto.ca", role = c("aut", "cre"))
+Description: Provides an R interface to the ClinicalTrials.gov v2 API with
+    keyword search, advanced filtering, and automatic pagination. Returns
+    raw study records and metadata to support reproducible data extraction.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports:
+    httr2
+
+
+    
