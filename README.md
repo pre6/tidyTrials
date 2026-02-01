@@ -2,7 +2,7 @@
 An R wrapper for the ClinicalTrials.gov API that simplifies access to global clinical trial data.
 
 
-`clinicaltrialsR` is a lightweight R package that provides programmatic access to the ClinicalTrials.gov API, the world’s largest public registry of clinical studies involving human participants.
+`tidyTrials` is a lightweight R package that provides programmatic access to the ClinicalTrials.gov API, the world’s largest public registry of clinical studies involving human participants.
 
 The package makes it easy to search, retrieve, and analyze global clinical trial data using simple, tidy R functions.
 
