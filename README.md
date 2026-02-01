@@ -68,13 +68,28 @@ Outputs a list of modules for a specific study and a table of fields, their defi
 
 ## Installation
 ```{r}
-## Installation
-remotes::install_github("pre6/tidyTrials")
+# install
+devtools::install_github("pre6/tidyTrials")
+library(tidytrials)
 
-## Quick start
-res <- search_studies("diabetes", status = "RECRUITING")
-study <- get_study(res$nct_id[1])
-tbl <- studies_to_table(list(study))
+# 1) Search ClinicalTrials.gov
+x <- search(
+  query = "asthma",
+  page_size = 50
+)
+
+# 2) Inspect a single study
+s <- get_study("NCT04267848")
+s
+
+# 3) Convert search results into a tidy table
+tab <- studies_to_table(x$studies)
+dplyr::glimpse(tab)
+
+# (optional) If you support “one tibble per protocol module”
+tabs <- studies_to_tables_by_module(x$studies)
+names(tabs)
+tabs$identificationModule |> head()
 
 
 ```
