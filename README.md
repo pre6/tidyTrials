@@ -36,7 +36,7 @@ This package implements a small but complete client for the ClinicalTrials.gov A
 
 Functions to search keyword in the titles of the clinical trials.
 
-`trials_run_spec(query, max_records, phase, country, from_date, to_date,date_filter)`
+`trials_fetch(query, max_records, phase, country, from_date, to_date,date_filter)`
 
 Search for clinical trials using query,max_records , phase or country.
 
@@ -51,7 +51,7 @@ Creates a clean 'tidy' table from the json output of the search results with an 
 
 Functions to retrieve detailed information for specific trials.
 
-`ct_get_study(nct_id, module = NULL)`
+`get_study_module_table(nct_id, module = NULL)`
 
 Retrieve full metadata for a single clinical trial using its NCT identifier and input a optional module paramter for certain field groups.
 
@@ -61,7 +61,7 @@ Optionally retrieve specific data modules (group of related fields). Default wil
 
 Functions to explore what data fields are available in the API.
 
-`ct_metadata(nct_id)`
+`get_metadata(nct_id)`
 
 Outputs a list of modules for a specific study and a table of fields, their definitions and which modules they belong to.
 
