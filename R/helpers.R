@@ -1,11 +1,15 @@
 #' Helper function to fetch a single page of results from the API
+#'
+#' @keywords internal
+#' @noRd
 .fetch_page <- function(url, params) {
   resp <- httr2::request(url) |>
     httr2::req_url_query(!!!params) |>
     httr2::req_perform()
-
+  
   httr2::resp_body_json(resp, simplifyVector = FALSE)
 }
+
 
 .build_date_range_filter <- function(from_date, to_date, date_filter) {
   if (is.null(from_date) || is.null(to_date)) return(NULL)
