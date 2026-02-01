@@ -72,6 +72,179 @@ get_in <- function(x, path, default = NA_character_) {
 }
 
 
+# helper functions for get study
+
+
+#' Check whether an object is empty
+#' @keywords internal
+is_empty <- function(x) {
+  is.null(x) ||
+    length(x) == 0 ||
+    (is.character(x) && all(!nzchar(x))) ||
+    (is.list(x) && length(x) == 0)
+}
+
+#' Recursively flatten nested API responses
+#' @keywords internal
+flatten_any <- function(x, prefix = "") {
+
+  out <- list()
+  if (is_empty(x)) return(out)
+
+  # atomic leaf
+  if (is.atomic(x) && !is.list(x)) {
+    val <- if (length(x) > 1) {
+      paste(as.character(x), collapse = " | ")
+    } else {
+      as.character(x)[1]
+    }
+
+    if (nzchar(val)) out[[prefix]] <- val
+    return(out)
+  }
+
+  # list
+  if (is.list(x)) {
+
+    # named list
+    if (!is.null(names(x)) && any(nzchar(names(x)))) {
+      for (nm in names(x)) {
+        if (!nzchar(nm)) next
+        key <- if (nzchar(prefix)) paste0(prefix, ".", nm) else nm
+        out <- c(out, flatten_any(x[[nm]], key))
+      }
+      return(out)
+    }
+
+    # unnamed list
+    if (all(vapply(x, function(z) is.atomic(z) && !is.list(z), logical(1)))) {
+      vals <- unlist(lapply(x, as.character), use.names = FALSE)
+      vals <- vals[nzchar(vals)]
+      if (length(vals)) out[[prefix]] <- paste(vals, collapse = " | ")
+      return(out)
+    }
+
+    # complex objects → JSON
+    out[[prefix]] <- jsonlite::toJSON(x, auto_unbox = TRUE, null = "null")
+    return(out)
+  }
+
+  out
+}
 
 
 
+## helper functions for get_metadata
+is_empty <- function(x) {
+  is.null(x) ||
+    length(x) == 0 ||
+    (is.character(x) && all(!nzchar(x))) ||
+    (is.list(x) && length(x) == 0)
+}
+
+truncate_100 <- function(x) {
+  x <- as.character(x)
+  ifelse(nchar(x) > 100, paste0(substr(x, 1, 100), "..."), x)
+}
+
+leaf_type <- function(x) {
+  if (is.null(x)) return("null")
+  if (is.atomic(x) && !is.list(x)) {
+    if (is.logical(x)) return("logical")
+    if (is.integer(x)) return("integer")
+    if (is.double(x))  return("double")
+    if (is.character(x)) return("character")
+    return(typeof(x))
+  }
+  if (is.list(x)) return("list")
+  typeof(x)
+}
+
+flatten_to_rows <- function(x, prefix = "") {
+
+  if (is_empty(x)) {
+    return(tibble::tibble(
+      path = character(),
+      value_type = character(),
+      example_value = character()
+    ))
+  }
+
+  if (is.atomic(x) && !is.list(x)) {
+    val <- if (length(x) > 1) {
+      paste(as.character(x), collapse = " | ")
+    } else {
+      as.character(x)[1]
+    }
+
+    if (is_empty(val)) {
+      return(tibble::tibble(
+        path = character(),
+        value_type = character(),
+        example_value = character()
+      ))
+    }
+
+    return(tibble::tibble(
+      path = prefix,
+      value_type = leaf_type(x),
+      example_value = truncate_100(val)
+    ))
+  }
+
+  if (is.list(x)) {
+
+    if (!is.null(names(x)) && any(nzchar(names(x)))) {
+      rows <- lapply(
+        names(x)[nzchar(names(x))],
+        function(nm) {
+          key <- if (nzchar(prefix)) paste0(prefix, ".", nm) else nm
+          flatten_to_rows(x[[nm]], key)
+        }
+      )
+      return(dplyr::bind_rows(rows))
+    }
+
+    if (all(vapply(x, function(z) is.atomic(z) && !is.list(z), logical(1)))) {
+      vals <- unlist(lapply(x, as.character), use.names = FALSE)
+      vals <- vals[nzchar(vals)]
+
+      if (!length(vals)) {
+        return(tibble::tibble(
+          path = character(),
+          value_type = character(),
+          example_value = character()
+        ))
+      }
+
+      return(tibble::tibble(
+        path = prefix,
+        value_type = "vector",
+        example_value = truncate_100(paste(vals, collapse = " | "))
+      ))
+    }
+
+    return(tibble::tibble(
+      path = prefix,
+      value_type = "list_of_objects",
+      example_value = truncate_100(
+        jsonlite::toJSON(x, auto_unbox = TRUE, null = "null")
+      )
+    ))
+  }
+
+  tibble::tibble(
+    path = character(),
+    value_type = character(),
+    example_value = character()
+  )
+}
+
+module_from_path <- function(p) {
+  parts <- strsplit(p, "\\.", fixed = FALSE)[[1]]
+  if (length(parts) >= 2 && identical(parts[1], "protocolSection")) {
+    parts[2]
+  } else {
+    NA_character_
+  }
+}
