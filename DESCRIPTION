@@ -1,17 +1,9 @@
 Package: tidytrials
 Title: Query and Tidy ClinicalTrials.gov Data in R
 Version: 0.1.0
-Authors@R: c(
-    person("Peter", "Nguyen",
-           email = "phan.nguyen@mail.utoronto.ca",
-           role = c("aut", "cre")),
-    person("Preethi", "Vezhavendan",
-           email = "preethi.vez@gmail.com",
-           role = "aut"),
-    person("Austin", "Coulter",
-            email = "austinpaulcoulter21@gmail.com",
-           role = "aut")
-)
+Authors@R: c(person("Peter","Nguyen",email="phan.nguyen@mail.utoronto.ca",role=c("aut","cre")),
+             person("Preethi","Vezhavendan",email="preethi.vez@gmail.com",role="aut"),
+             person("Austin","Coulter",email="austinpaulcoulter21@gmail.com",role="aut"))
 Description: Provides an R interface to the ClinicalTrials.gov v2 API with
     keyword search, advanced filtering, and automatic pagination. Returns
     raw study records and metadata to support reproducible data extraction.

@@ -127,13 +127,13 @@ studies_to_tables_by_module <- function(
   }
   
   # build one tibble per module (named list)
-  tables <- set_names(modules) |>
-    map(function(m) {
-      tab <- map_dfr(studies, extractors[[m]])
+  tables <- purrr::set_names(modules) |>
+    purrr::map(function(m) {
+      tab <- purrr::map_dfr(studies, extractors[[m]])
       
       # de-dup by nct_id when present
       if ("nct_id" %in% names(tab)) {
-        tab <- distinct(tab, nct_id, .keep_all = TRUE)
+        tab <- dplyr::distinct(tab, rlang::.data$nct_id, .keep_all = TRUE)
       }
       
       tab
