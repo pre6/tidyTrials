@@ -14,6 +14,8 @@
 #' @param date_filter Date field to filter on.
 #'   One of `"LastUpdatePostDate"` (default), `"StartDate"`,
 #'   `"PrimaryCompletionDate"`, or `"CompletionDate"`.
+#' @param save_json Logical; if `TRUE`, saves raw JSON to file instead of returning R objects.
+#' @param json_file File path to save JSON output (if `save_json` is `TRUE`).
 #' @return A list with two elements:
 #' \describe{
 #'   \item{studies}{A list of raw study records (JSON parsed as R lists).}
@@ -29,27 +31,35 @@ trials_fetch <- function(
   country = NULL,
   from_date = "MIN",
   to_date = "MAX",
-  date_filter = "LastUpdatePostDate"
+  date_filter = "LastUpdatePostDate",
+  save_json = FALSE,
+  json_file = NULL
 ) {
   if (!is.character(query) || length(query) != 1 || nchar(query) == 0) {
     stop("`query` must be a single non-empty string.")
   }
 
   allowed <- c("LastUpdatePostDate", "StartDate", "PrimaryCompletionDate", "CompletionDate")
-
   if (!date_filter %in% allowed) {
     stop(paste0("`date_filter` must be one of: ", paste(allowed, collapse = ", ")))
   }
 
-  url <- "https://clinicaltrials.gov/api/v2/studies"
+  if (save_json) {
+    if (is.null(json_file)) {
+      json_file <- "output.json"
+    }
+    if (!requireNamespace("jsonlite", quietly = TRUE)) {
+      stop("Package `jsonlite` is required.")
+    }
+  }
 
+  url <- "https://clinicaltrials.gov/api/v2/studies"
   date_range <- .build_date_range_filter(from_date, to_date, date_filter)
 
-  #Building advanced filters
-  if (is.null(phase)) {
-    advanced_filters <- date_range
+  advanced_filters <- if (is.null(phase)) {
+    date_range
   } else {
-    advanced_filters <- paste0(date_range, ' AND AREA[Phase] "', phase, '"')
+    paste0(date_range, ' AND AREA[Phase] "', phase, '"')
   }
 
   params <- list(
@@ -59,39 +69,74 @@ trials_fetch <- function(
     "filter.advanced" = advanced_filters
   )
 
-  all_studies <- list()
+  # streaming / accumulation setup
+  con <- NULL
+  first <- TRUE
+  fetched <- 0L
 
-  # Fetch pages of results until we reach the maximum number of records
-  while (length(all_studies) < max_records) {
-    data <- .fetch_page(url, params)
-
-    if (is.null(data$studies) || length(data$studies) == 0) break
-
-    all_studies <- c(all_studies, data$studies)
-
-    next_token <- data$nextPageToken
-    if (is.null(next_token) || length(all_studies) >= max_records) break
-    params[["pageToken"]] <- next_token
+  if (save_json) {
+    con <- file(json_file, open = "wt", encoding = "UTF-8")
+    on.exit(close(con), add = TRUE)
+    # Start JSON array
+    writeLines("[", con)
+  } else {
+    all_studies <- list()
   }
 
-  studies_out <- all_studies[seq_len(min(length(all_studies), max_records))]
+  # Fetch loop
+  while (fetched < max_records) {
+    data <- .fetch_page(url, params)
+    studies <- data$studies
+
+    if (is.null(studies) || length(studies) == 0) break
+
+    remaining <- max_records - fetched
+    to_take <- min(length(studies), remaining)
+    studies <- studies[seq_len(to_take)]
+
+    if (save_json) {
+      for (s in studies) {
+        if (!first) writeLines(",", con)
+        writeLines(
+          jsonlite::toJSON(s, auto_unbox = TRUE, null = "null"),
+          con
+        )
+        first <- FALSE
+        fetched <- fetched + 1L
+      }
+    } else {
+      all_studies <- c(all_studies, studies)
+      fetched <- fetched + to_take
+    }
+
+    next_token <- data$nextPageToken
+    if (is.null(next_token) || fetched >= max_records) break
+    params[["pageToken"]] <- next_token
+  }
+  meta = list(
+    query = query,
+    max_records = max_records,
+    fetched = fetched,
+    phase = phase,
+    country = country,
+    from_date = from_date,
+    to_date = to_date,
+    date_filter = date_filter
+  )
+
+  if (save_json) {
+    # End JSON array
+    writeLines("]", con)
+    print(meta)
+    print(paste("Saving JSON output to", json_file))
+    return(invisible(json_file))
+  }
 
   list(
-    studies = studies_out,
-    meta = list(
-      query = query,
-      filters = list(
-      phase = phase,
-      country = country,
-      from_date = from_date,
-      to_date = to_date,
-      date_filter = date_filter
-    ),
-    records_fetched = length(studies_out)
-)
+    studies = all_studies,
+    meta = meta
   )
 }
-
 # `trial_run_spec` is a helper function for testing purposes.
 # It takes a list of parameters and calls `trials_fetch` with them.
 trials_run_spec <- function(spec) {
