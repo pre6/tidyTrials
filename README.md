@@ -66,6 +66,17 @@ Functions to explore what data fields are available in the API.
 Outputs a list of modules for a specific study and a table of fields, their definitions and which modules they belong to.
 
 
+## Installation
+```{r}
+## Installation
+remotes::install_github("yourname/tidyTrials")
 
+## Quick start
+res <- search_studies("diabetes", status = "RECRUITING")
+study <- get_study(res$nct_id[1])
+tbl <- studies_to_table(list(study))
+
+
+```
 
 
