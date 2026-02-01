@@ -69,7 +69,7 @@ Outputs a list of modules for a specific study and a table of fields, their defi
 ## Installation
 ```{r}
 ## Installation
-remotes::install_github("yourname/tidyTrials")
+remotes::install_github("pre6/tidyTrials")
 
 ## Quick start
 res <- search_studies("diabetes", status = "RECRUITING")
