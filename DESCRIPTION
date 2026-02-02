@@ -20,5 +20,6 @@ Imports:
     rlang
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    ggplot2
 VignetteBuilder: knitr
