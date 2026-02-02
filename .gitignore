@@ -16,3 +16,5 @@ Rhistory
 Thumbs.db
 
 tmp_pkg/
+/doc/
+/Meta/

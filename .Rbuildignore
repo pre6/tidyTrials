@@ -3,3 +3,5 @@
 ^_individual_notebooks$
 ^.*\.ipynb$
 ^\.github$
+^doc$
+^Meta$

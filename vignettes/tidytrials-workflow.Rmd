@@ -1,8 +1,8 @@
 ---
-title: "tidyTrials: from search to plot"
+title: "tidytrials: from search to plot"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{tidyTrials: from search to plot}
+  %\VignetteIndexEntry{tidytrials: from search to plot}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
