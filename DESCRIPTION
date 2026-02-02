@@ -18,9 +18,7 @@ Imports:
     dplyr,
     purrr,
     rlang
-
 Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-    
