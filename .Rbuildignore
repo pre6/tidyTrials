@@ -1,1 +1,4 @@
 ^LICENSE\.md$
+^.*\.ipynb_checkpoints$
+^_individual_notebooks$
+^.*\.ipynb$
