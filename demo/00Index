@@ -1,2 +1,3 @@
 get_study_demo         Fetch a single ClinicalTrials.gov study by NCT ID
+search_demo            Fetches studies for given parameters
 studies_to_table_demo  Convert study JSON(s) into a tidy tibble
