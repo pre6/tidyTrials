@@ -2,7 +2,7 @@
 % Please edit documentation in R/studies_to_table.R
 \name{studies_to_tables_by_module}
 \alias{studies_to_tables_by_module}
-\title{Build module-level tables (one tibble per module) from CT.gov v2 JSON}
+\title{Build module-level tables from ClinicalTrials.gov v2 JSON}
 \usage{
 studies_to_tables_by_module(
   studies,
@@ -11,14 +11,24 @@ studies_to_tables_by_module(
 )
 }
 \arguments{
-\item{studies}{List of study records (e.g., result$studies).}
+\item{studies}{A list of study records (e.g., \code{result$studies} from the API).}
 
-\item{modules}{Character vector of protocolSection module names to include.
-Use "all" to include all supported modules.}
+\item{modules}{Character vector of module names to include. Use \code{"all"} to
+include all supported modules.}
 }
 \value{
-Named list of tibbles. Each tibble has 1 row per study.
+A named list of tibbles. Each tibble contains one row per study.
 }
 \description{
-Build module-level tables (one tibble per module) from CT.gov v2 JSON
+Given a list of study records returned by the ClinicalTrials.gov v2 API,
+this function extracts selected \code{protocolSection} modules and returns a
+named list of tibbles (one tibble per module), each with one row per study.
+}
+\examples{
+\dontrun{
+# studies <- result$studies
+tabs <- studies_to_tables_by_module(studies, modules = c("identificationModule", "statusModule"))
+tabs$identificationModule
+}
+
 }
