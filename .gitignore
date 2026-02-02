@@ -8,6 +8,7 @@ _individual_notebooks/
 # RStudio / misc
 .Rhistory
 .RData
+Rhistory
 .Rproj.user/
 
 # OS junk
