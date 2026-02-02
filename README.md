@@ -1,8 +1,5 @@
 # tidyTrials
-[![R-CMD-check](https://github.com/pre6/tidyTrials/actions/workflows/R-CMD-check.yaml/badge.svg)](
-https://github.com/pre6/tidyTrials/actions/workflows/R-CMD-check.yaml
-)
-
+[![R-CMD-check](https://github.com/pre6/tidyTrials/actions/workflows/r.yml/badge.svg)](https://github.com/pre6/tidyTrials/actions/workflows/r.yml)
 An R wrapper for the ClinicalTrials.gov API that simplifies access to global clinical trial data.
 
 
