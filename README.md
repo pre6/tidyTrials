@@ -28,6 +28,8 @@ ClinicalTrials.gov is maintained by the U.S. National Library of Medicine and co
 - Start and completion dates
 
 However, the official API returns complex, nested JSON that is difficult to explore and analyze directly in R.
+
+
 **tidyTrials solves this by:**
 
 - providing simple R functions to query the API
