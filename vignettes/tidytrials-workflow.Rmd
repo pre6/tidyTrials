@@ -1,0 +1,14 @@
+---
+title: "tidyTrials: from search to plot"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{tidyTrials: from search to plot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
