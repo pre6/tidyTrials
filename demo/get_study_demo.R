@@ -1,0 +1,1 @@
+result <- get_study_module_table("NCT04267848")
