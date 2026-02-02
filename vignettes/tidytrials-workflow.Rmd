@@ -12,3 +12,66 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+### 1. Load the packages
+
+```{r}
+library(tidytrials)
+library(dplyr)
+library(ggplot2)
+```
+
+### 2. Search Studies
+
+```{r}
+res <- trials_fetch(
+  query = "diabetes",
+  max_records = 50
+)
+
+```
+
+### 3. Convert to tidy module tables
+
+```{r}
+tabs <- studies_to_tables_by_module(
+  res$studies,
+  modules = c("statusModule", "designModule")
+)
+status <- tabs$statusModule
+design <- tabs$designModule
+```
+
+### 4. Plot: recruiting status distribution
+
+```{r}
+status |>
+  filter(!is.na(overall_status)) |>
+  count(overall_status, sort = TRUE) |>
+  ggplot(aes(x = reorder(overall_status, n), y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Clinical trials by overall status",
+    x = "Overall status",
+    y = "Number of trials"
+  )
+```
+
+### 5. Plot by Phase Distribution
+
+```{r}
+design |>
+  filter(!is.na(phases)) |>
+  count(phases, sort = TRUE) |>
+  ggplot(aes(x = reorder(phases, n), y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Clinical trials by phase",
+    x = "Phase",
+    y = "Number of trials"
+  )
+
+```
