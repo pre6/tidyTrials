@@ -122,4 +122,27 @@ Outputs a list of modules for a specific study and a table of fields, their defi
 
 # Example Analysis
 
+```{r}
+res <- trials_fetch(
+  query = "asthma",
+  max_records = 50
+)
 
+tables <- studies_to_tables_by_module(res$studies)
+
+tables$statusModule |>
+  count(overall_status, sort = TRUE)
+```
+
+
+This produces a summary of recruitment status across trials — a common first step in trial landscape analysis.
+
+# Intended Use Cases
+
+- Teaching tidy data principles with real-world biomedical data
+
+- Exploratory analysis of clinical trial landscapes
+
+- Meta-analysis and systematic review preparation
+
+- Coursework projects involving APIs and reproducible research
