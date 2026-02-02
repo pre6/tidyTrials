@@ -26,7 +26,7 @@ ClinicalTrials.gov is maintained by the U.S. National Library of Medicine and co
 
 The goal of this project is to build a clean API wrapper that allows researchers, students, and analysts to easily explore and analyze this data directly from R.
 
-
+[![R-CMD-check](https://github.com/pre6/tidyTrials/actions/workflows/r.yml/badge.svg)](https://github.com/pre6/tidyTrials/actions/workflows/r.yml)
 
 # What This Package Will Do
 
