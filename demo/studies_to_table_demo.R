@@ -9,4 +9,4 @@ spec <- list(
 )
 result <- trials_run_spec(spec)
 
-studies_to_table(result$studies, modules = "identificationModule")
+studies_to_tables_by_module(result$studies, modules = "identificationModule")
