@@ -19,5 +19,8 @@ Imports:
     purrr,
     rlang
 
-
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
     
