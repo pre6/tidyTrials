@@ -8,8 +8,11 @@ _individual_notebooks/
 # RStudio / misc
 .Rhistory
 .RData
+Rhistory
 .Rproj.user/
 
 # OS junk
 .DS_Store
 Thumbs.db
+
+tmp_pkg/
