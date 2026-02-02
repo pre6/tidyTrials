@@ -13,3 +13,5 @@ _individual_notebooks/
 # OS junk
 .DS_Store
 Thumbs.db
+
+tmp_pkg/
