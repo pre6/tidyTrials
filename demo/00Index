@@ -1,3 +1,0 @@
-get_study            Fetch a single ClinicalTrials.gov study by NCT ID
-search_demo          Search ClinicalTrials.gov studies with filters
-studies_to_table_demo Convert study JSON(s) into a tidy tibble
