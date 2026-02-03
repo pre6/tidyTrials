@@ -47,7 +47,7 @@ json_output <- jsonlite::fromJSON(("test.json"), simplifyVector = FALSE)
 
 ```{r}
 tabs <- studies_to_tables_by_module(
-  res,
+  res$studies,
   modules = c("statusModule", "designModule")
 )
 status <- tabs$statusModule
@@ -102,4 +102,5 @@ design |>
   )
 
 ```
+
 
