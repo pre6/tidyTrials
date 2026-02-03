@@ -2,6 +2,8 @@
 [![R-CMD-check](https://github.com/pre6/tidyTrials/actions/workflows/r.yml/badge.svg)](https://github.com/pre6/tidyTrials/actions/workflows/r.yml)
 
 
+(please view our individual notebooks at: https://github.com/pre6/tidyTrials/tree/individual_notebooks/_individual_notebooks)
+
 An R wrapper for the ClinicalTrials.gov API that simplifies access to global clinical trial data.
 
 
