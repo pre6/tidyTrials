@@ -34,7 +34,7 @@ class(res$studies)
 ```
 ### 2b. Search studies convert to JSON output
 ```{r}
-res <- trials_fetch(
+res_json <- trials_fetch(
   query = "diabetes",
   max_records = 50, save_json =TRUE,json_file="test.json"
 )
@@ -102,3 +102,4 @@ design |>
   )
 
 ```
+
