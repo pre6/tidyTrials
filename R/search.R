@@ -96,7 +96,7 @@ trials_fetch <- function(
 
     if (save_json) {
       for (s in studies) {
-        if (!first) writeLines(",", con)
+        if (!first) writeLines(",", con) #avoid writing comma before first entry
         writeLines(
           jsonlite::toJSON(s, auto_unbox = TRUE, null = "null"),
           con
