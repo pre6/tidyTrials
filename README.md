@@ -1,5 +1,4 @@
 # tidyTrials
-[![R-CMD-check](https://github.com/pre6/tidyTrials/actions/workflows/r.yml/badge.svg)](https://github.com/pre6/tidyTrials/actions/workflows/r.yml)
 [![R-CMD-check](https://github.com/pre6/tidyTrials/actions/workflows/r.yml/badge.svg?branch=main)](https://github.com/pre6/tidyTrials/actions/workflows/r.yml)
 
 
