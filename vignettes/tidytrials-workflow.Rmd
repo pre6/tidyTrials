@@ -30,18 +30,45 @@ res <- trials_fetch(
   max_records = 50
 )
 
+class(res$studies)
 ```
+### 2b. Search studies convert to JSON output
+```{r}
+res <- trials_fetch(
+  query = "diabetes",
+  max_records = 50, save_json =TRUE,json_file="test.json"
+)
+json_output <- jsonlite::fromJSON(("test.json"), simplifyVector = FALSE)
+
+```
+
 
 ### 3. Convert to tidy module tables
 
 ```{r}
 tabs <- studies_to_tables_by_module(
-  res$studies,
+  res,
   modules = c("statusModule", "designModule")
 )
 status <- tabs$statusModule
 design <- tabs$designModule
+
+status
 ```
+### 3b. convert json output to tidy modules tables
+
+```{r}
+tabs <- studies_to_tables_by_module(
+  json_output,
+  modules = c("statusModule", "designModule")
+)
+status <- tabs$statusModule
+design <- tabs$designModule
+
+status
+
+```
+
 
 ### 4. Plot: recruiting status distribution
 

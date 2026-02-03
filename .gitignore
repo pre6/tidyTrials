@@ -2,8 +2,8 @@
 .ipynb_checkpoints/
 **/.ipynb_checkpoints/
 
-# Individual notebooks (exploration / diary)
-_individual_notebooks/
+# # Individual notebooks (exploration / diary)
+# _individual_notebooks/
 
 # RStudio / misc
 .Rhistory
